@@ -38,4 +38,4 @@ jobs:
           envs: SERVER_PORT
           script: |
             docker pull uslb2006/test:latest
-            docker run -d --name test -p 8000:${SERVER_PORT} uslb2006/test:latest
+            docker run -d -p 8000:${SERVER_PORT} uslb2006/test:latest
