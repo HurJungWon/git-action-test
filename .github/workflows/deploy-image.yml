@@ -25,3 +25,17 @@ jobs:
         with:
           push: true
           tags: uslb2006/test:latest
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        env:
+          SERVER_PORT: 7000
+        with:
+          host: ${{ secrets.NCP_HOST }}
+          port: ${{ secrets.NCP_PORT }}
+          username: ${{ secrets.NCP_USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: SERVER_PORT
+          script: |
+            docker pull uslb2006/test:latest
+            docker run -d --name test -p 8000:${SERVER_PORT} uslb2006/test:latest
