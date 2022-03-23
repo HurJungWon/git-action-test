@@ -12,9 +12,9 @@ class ServerSettings(BaseSettings):
 app = FastAPI()
 
 
-@app.route("/")
+@app.get("/")
 async def index():
-    return "Hello From NCP"
+    return {"message": "Hello From NCP"}
 
 
 if __name__ == "__main__":
