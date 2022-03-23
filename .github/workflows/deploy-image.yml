@@ -30,12 +30,13 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           SERVER_PORT: 7000
+          RELOAD: ${{ secrets.RELOAD }}
         with:
           host: ${{ secrets.NCP_HOST }}
           port: ${{ secrets.NCP_PORT }}
           username: ${{ secrets.NCP_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          envs: SERVER_PORT
+          envs: SERVER_PORT, RELOAD
           script: |
             docker pull uslb2006/test:latest
-            docker run -d -p 8000:${SERVER_PORT} uslb2006/test:latest
+            docker run -d -p 8000:${SERVER_PORT} -e RELOAD -e SERVER_PORT uslb2006/test:latest
