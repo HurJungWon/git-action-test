@@ -12,7 +12,7 @@ class ServerSettings(BaseSettings):
 app = FastAPI()
 
 
-@app.route("")
+@app.route("/")
 async def index():
     return "Hello From NCP"
 
