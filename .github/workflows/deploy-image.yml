@@ -48,13 +48,15 @@ jobs:
         env:
           SERVER_PORT: 7000
           RELOAD: ${{ secrets.RELOAD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         with:
           host: ${{ secrets.NCP_HOST }}
           port: ${{ secrets.NCP_PORT }}
           username: ${{ secrets.NCP_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          envs: SERVER_PORT, RELOAD
+          envs: SERVER_PORT, RELOAD, DOCKERHUB_USERNAME
           script: |
             export SERVER_PORT=$SERVER_PORT
             export RELOAD=$RELOAD
+            export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
             sh /root/jw/git-action/deploy/deploy.sh
