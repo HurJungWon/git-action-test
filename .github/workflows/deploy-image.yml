@@ -55,4 +55,6 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           envs: SERVER_PORT, RELOAD
           script: |
+            export SERVER_PORT=$SERVER_PORT
+            export RELOAD=$RELOAD
             sh /root/jw/git-action/deploy/deploy.sh
