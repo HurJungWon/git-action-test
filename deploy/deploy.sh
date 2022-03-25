@@ -17,12 +17,12 @@ else
 fi 
 
 echo "> Health check 시작합니다."
-echo "> curl -s http://localhost:$IDLE_PORT/health"
+echo "> curl -s http://0.0.0.0:$IDLE_PORT/health"
 sleep 1
 
 for retry_count in {1..100}
 do
-response=$(curl -s http://localhost:$IDLE_PORT/health)
+response=$(curl -s http://0.0.0.0:$IDLE_PORT/health)
 up_count=$(echo $response | grep 'UP' | wc -l)
 
 if [ $up_count -ge 1 ]
