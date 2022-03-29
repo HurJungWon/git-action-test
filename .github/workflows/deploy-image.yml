@@ -57,11 +57,11 @@ jobs:
           RELEASE_VERSION: 1.1.4
           NCP_DOCKER_HOST: ${{ secrets.NCP_HOST }}
           NCP_DOCKER_PORT: ${{ secrets.NCP_DOCKER_PORT }}
-          CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
-          CERT: ${{ secrets.DOCKER_CERT }}
-          KEY: ${{ secrets.DOCKER_KEY }}
+          DOCKER_CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
+          DOCKER_CERT: ${{ secrets.DOCKER_CERT }}
+          DOCKER_KEY: ${{ secrets.DOCKER_KEY }}
         run: |
-          echo -n $CA_CERT | base64 --decode > ca.pem
-          echo -n $CERT | base64 --decode > cert.pem
-          echo -n $KEY | base64 --decode > key.pem
+          echo -n $DOCKER_CA_CERT | base64 --decode > ca.pem
+          echo -n $DOCKER_CERT | base64 --decode > cert.pem
+          echo -n $DOCKER_KEY | base64 --decode > key.pem
           docker --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify -H ${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT} ps
