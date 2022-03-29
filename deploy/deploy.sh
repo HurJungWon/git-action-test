@@ -2,18 +2,20 @@
 
 APP_NAME=test
 TEST_RANGE=100
+NCP_HOST=${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}
 
-EXIST_BLUE=$(docker-compose -H ${NCP_HOSt} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
+
+EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
 
 if [ -z "$EXIST_BLUE" ]; then
     echo "blue up"
     IDLE_PORT=8000
-    docker-compose -H ${NCP_HOSt} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml up -d
+    docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml up -d
 
 else
     echo "green up"
     IDLE_PORT=8001
-    docker-compose -H ${NCP_HOSt} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml up -d
+    docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml up -d
 fi 
 
 echo "> Health check 시작합니다."
@@ -46,10 +48,10 @@ docker exec -it proxy sh /scripts/switch-serve.sh ${IDLE_PORT}
 docker exec -it proxy service nginx reload
 
 if [ -z "$EXIST_BLUE" ]; then
-    docker-compose -H ${NCP_HOSt} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml down
+    docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml down
 
 else
-    docker-compose -H ${NCP_HOSt} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml down
+    docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml down
 fi
 echo "> 배포 성공 Nginx Current Proxy Port: $IDLE_PORT"
 exit 0
