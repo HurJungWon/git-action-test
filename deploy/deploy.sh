@@ -4,9 +4,7 @@ APP_NAME=test
 TEST_RANGE=100
 NCP_HOST=${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}
 
-echo docker --version
-echo ${NCP_HOST}
-echo ${CA_CERT}
+echo $(docker-compose --version)
 
 EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
 
