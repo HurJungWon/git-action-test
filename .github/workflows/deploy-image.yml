@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.NCP_REG_ENDPOINT }}/test:${{ steps.setenv.outputs.tag }}
+          tags: flab-hjw.kr.ncr.ntruss.com/test:${{ steps.setenv.outputs.tag }}
 
   CD:
     needs: CI
