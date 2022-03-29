@@ -51,7 +51,7 @@ jobs:
         working-directory: ./deploy
         env:
           NCP_HOST:
-          SERVER_PORT: 7000
+          SERVER_PORT: 8000
           RELOAD: 0
           # RELEASE_VERSION: ${{ needs.CI.outputs.image-tag }}
           RELEASE_VERSION: 1.1.4
