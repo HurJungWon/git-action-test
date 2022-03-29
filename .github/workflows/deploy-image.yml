@@ -1,8 +1,8 @@
 name: CI/CD
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - develop
 jobs:
   # CI:
   #   runs-on: ubuntu-latest
@@ -61,4 +61,4 @@ jobs:
           DOCKER_CERT: ${{ secrets.DOCKER_CERT }}
           DOCKER_KEY: ${{ secrets.DOCKER_KEY }}
         run: |
-          echo "$DOCKER_CA_CERT" | base64 --decode > ca.pem
+          echo "$DOCKER_CA_CERT"
