@@ -60,4 +60,4 @@ jobs:
           CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
           CERT: ${{ secrets.DOCKER_CERT }}
           KEY: ${{ secrets.DOCKER_KEY }}
-        run: docker --tlscacert="${CA_CERT}" --tlscert="${CERT}" --tlskey="${KEY}" --tlsverify -H "${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}" ps
+        run: docker --tlscacert="$CA_CERT" --tlscert="$CERT" --tlskey="$KEY" --tlsverify -H "${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}" ps
