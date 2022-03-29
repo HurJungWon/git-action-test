@@ -60,4 +60,4 @@ jobs:
           CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
           CERT: ${{ secrets.DOCKER_CERT }}
           KEY: ${{ secrets.DOCKER_KEY }}
-        run: sh deploy.sh
+        run: docker-compose -H "${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}" --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tls -p ${APP_NAME}-blue -f docker-compose-blue.yml ps
