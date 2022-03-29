@@ -61,7 +61,4 @@ jobs:
           CERT: ${{ secrets.DOCKER_CERT }}
           KEY: ${{ secrets.DOCKER_KEY }}
         run: |
-          echo $CA_CERT >> ca_cert.pem
-          echo $CERT >> cert.pem
-          echo $KEY >> key.pem
-          docker --tlscacert=ca_cert.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify -H ${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT} ps
+          docker --tlscacert=$CA_CERT --tlscert=$CERT --tlskey=$KEY --tlsverify -H ${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT} ps
