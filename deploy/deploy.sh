@@ -1,10 +1,10 @@
 #!/bin/bash
 
 APP_NAME=test
-TEST_RANGE=100
-NCP_HOST=${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}
+TEST_RANGE=30
+# NCP_HOST=${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}
+NCP_HOST=101.101.219.34:2376
 
-echo $(docker-compose --version)
 
 EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
 
@@ -37,7 +37,7 @@ else
     echo "> Health check: ${response}"
 fi
 
-if [ $retry_count -eq 100 ]
+if [ $retry_count -eq $TEST_RANGE ]
 then
     echo "> Health check 실패. "
     echo "> Nginx에 연결하지 않고 배포를 종료합니다."
