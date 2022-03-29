@@ -60,7 +60,7 @@ jobs:
           CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
           CERT: ${{ secrets.DOCKER_CERT }}
           KEY: ${{ secrets.DOCKER_KEY }}
-            script: |
+            run: |
               echo $CA_CERT >> ca_cert.pem
               echo $CERT >> cert.pem
               echo $KEY >> key.pem
