@@ -4,7 +4,7 @@ APP_NAME=test
 TEST_RANGE=30
 NCP_HOST="${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT}"
 
-docker-compose -H ${NCP_HOST} -p ${APP_NAME}-blue -f docker-compose-blue.yml ps
+docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps
 # EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=${CA_CERT} --tlscert=${CERT} --tlskey=${KEY} --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
 
 # if [ -z "$EXIST_BLUE" ]; then
