@@ -22,6 +22,7 @@ sleep 1
 
 for retry_count in {1..${TEST_RANGE}}
 do
+
 response=$(curl -s http://0.0.0.0:${IDLE_PORT}/health)
 up_count=$(echo $response | grep 'UP' | wc -l)
 
