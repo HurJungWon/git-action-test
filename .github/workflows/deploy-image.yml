@@ -61,4 +61,4 @@ jobs:
           DOCKER_CERT: ${{ secrets.DOCKER_CERT }}
           DOCKER_KEY: ${{ secrets.DOCKER_KEY }}
         run: |
-          echo "$DOCKER_CA_CERT"
+          echo -n "$DOCKER_CA_CERT" | base64 --decode > ca.pem
