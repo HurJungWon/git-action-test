@@ -8,13 +8,12 @@ CA_PATH="$BASE_DIR/ca.pem"
 CERT_PATH="$BASE_DIR/cert.pem"
 KEY_PATH="$BASE_DIR/key.pem"
 
-docker-compose -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p $APP_NAME-blue -f docker-compose-blue.yml ps
 EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
 
 if [ -z "$EXIST_BLUE" ]; then
     echo "blue up"
     IDLE_PORT=8000
-    docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml up -d
+    docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-blue -f "$BASE_DIR/docker-compose-blue.yml" up -d
 
 else
     echo "green up"
