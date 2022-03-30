@@ -8,12 +8,12 @@ CA_PATH="$BASE_DIR/ca.pem"
 CERT_PATH="$BASE_DIR/cert.pem"
 KEY_PATH="$BASE_DIR/key.pem"
 
-EXIST_BLUE=$(docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-blue -f docker-compose-blue.yml ps | grep Up)
+EXIST_BLUE=$(docker-compose -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p $APP_NAME-blue -f docker-compose-blue.yml ps | grep Up)
 
 if [ -z "$EXIST_BLUE" ]; then
     echo "blue up"
     IDLE_PORT=8000
-    docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-blue -f "$BASE_DIR/docker-compose-blue.yml" up -d
+    docker-compose -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p $APP_NAME-blue -f docker-compose-blue.yml up -d
 
 else
     echo "green up"
@@ -22,13 +22,13 @@ else
 fi 
 
 echo "> Health check 시작합니다."
-echo "> curl -s http://0.0.0.0:${IDLE_PORT}/health"
+echo "> curl -s http://0.0.0.0:$IDLE_PORT/health"
 sleep 1
 
-for retry_count in {1..${TEST_RANGE}}
+for retry_count in {1..$TEST_RANGE}
 do
 
-response=$(curl -s http://0.0.0.0:${IDLE_PORT}/health)
+response=$(curl -s http://0.0.0.0:$IDLE_PORT/health)
 up_count=$(echo $response | grep 'UP' | wc -l)
 
 if [ $up_count -ge 1 ]
@@ -36,7 +36,7 @@ then
     echo "> Health check 성공"
     break
 else
-    echo "> Health check: ${response}"
+    echo "> Health check: $response"
 fi
 
 if [ $retry_count -eq $TEST_RANGE ]
@@ -47,8 +47,8 @@ then
 fi
 done
 
-docker exec -it proxy sh /scripts/switch-serve.sh ${IDLE_PORT}
-docker exec -it proxy service nginx reload
+docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec -it proxy sh /scripts/switch-serve.sh $IDLE_PORT
+docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec -it proxy service nginx reload
 
 if [ -z "$EXIST_BLUE" ]; then
     docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml down
