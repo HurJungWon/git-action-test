@@ -1,40 +1,40 @@
 name: CI/CD
 on:
   push:
-    branches:
-      - develop
+    tags:
+      - "v*"
 jobs:
-  # CI:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     image-tag: ${{ steps.setenv.outputs.tag }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
+  CI:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.setenv.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #     - id: setenv
-  #       name: Set env
-  #       run: echo "::set-output name=tag::${GITHUB_REF#refs/*/v}"
+      - id: setenv
+        name: Set env
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/*/v}"
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-  #     - name: Login to NCP Container Registry
-  #       uses: docker/login-action@v1
-  #       with:
-  #         username: ${{ secrets.NCP_ACCESS_KEY }}
-  #         password: ${{ secrets.NCP_SECRET_KEY }}
-  #         registry: flab-hjw.kr.ncr.ntruss.com
+      - name: Login to NCP Container Registry
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.NCP_ACCESS_KEY }}
+          password: ${{ secrets.NCP_SECRET_KEY }}
+          registry: flab-hjw.kr.ncr.ntruss.com
 
-  #     - name: Build and push
-  #       id: docker_build
-  #       uses: docker/build-push-action@v2
-  #       with:
-  #         push: true
-  #         tags: flab-hjw.kr.ncr.ntruss.com/test:${{ steps.setenv.outputs.tag }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: flab-hjw.kr.ncr.ntruss.com/test:${{ steps.setenv.outputs.tag }}
 
   CD:
-    # needs: CI
+    needs: CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,8 +53,7 @@ jobs:
           NCP_HOST:
           SERVER_PORT: 8000
           RELOAD: 0
-          # RELEASE_VERSION: ${{ needs.CI.outputs.image-tag }}
-          RELEASE_VERSION: 1.1.4
+          RELEASE_VERSION: ${{ needs.CI.outputs.image-tag }}
           NCP_DOCKER_HOST: ${{ secrets.NCP_HOST }}
           NCP_DOCKER_PORT: ${{ secrets.NCP_DOCKER_PORT }}
           CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
@@ -64,4 +63,3 @@ jobs:
           echo -n "$CA_CERT" | base64 --decode > ca.pem
           echo -n "$CERT" | base64 --decode > cert.pem
           echo -n "$KEY" | base64 --decode > key.pem
-          docker --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify -H ${NCP_DOCKER_HOST}:${NCP_DOCKER_PORT} ps
