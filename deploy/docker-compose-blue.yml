@@ -6,5 +6,5 @@ services:
     ports:
       - "8000:${SERVER_PORT}"
     environment:
-      - SERVER_PORT: $SERVER_PORT
-      - RELOAD: $RELOAD
+      SERVER_PORT: $SERVER_PORT
+      RELOAD: $RELOAD
