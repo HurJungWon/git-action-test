@@ -64,4 +64,4 @@ jobs:
           echo -n "$CA_CERT" | base64 --decode > ca.pem
           echo -n "$CERT" | base64 --decode > cert.pem
           echo -n "$KEY" | base64 --decode > key.pem
-          docker -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify pull $NCP_REG_ENDPOINT/test:1.6.4
+          docker -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify pull $NCP_REG_ENDPOINT/test:$RELEASE_VERSION
