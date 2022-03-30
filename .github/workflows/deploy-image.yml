@@ -53,6 +53,7 @@ jobs:
           SERVER_PORT: 8000
           RELOAD: 0
           RELEASE_VERSION: ${{ needs.CI.outputs.image-tag }}
+          NCP_REG_ENDPOINT: ${{ secrets.NCP_REG_ENDPOINT }}
           NCP_DOCKER_HOST: ${{ secrets.NCP_HOST }}
           NCP_DOCKER_PORT: ${{ secrets.NCP_DOCKER_PORT }}
           CA_CERT: ${{ secrets.DOCKER_CA_CERT }}
