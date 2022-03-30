@@ -63,4 +63,4 @@ jobs:
           echo -n "$CA_CERT" | base64 --decode > ca.pem
           echo -n "$CERT" | base64 --decode > cert.pem
           echo -n "$KEY" | base64 --decode > key.pem
-          echo $PWD
+          sh deploy.sh
