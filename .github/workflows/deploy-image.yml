@@ -53,7 +53,7 @@ jobs:
           SERVER_PORT: 8000
           RELOAD: 0
           # RELEASE_VERSION: ${{ needs.CI.outputs.image-tag }}
-          RELEASE_VERSION: 1.6.4
+          RELEASE_VERSION: 1.6.3
           NCP_REG_ENDPOINT: ${{ secrets.NCP_REG_ENDPOINT }}
           NCP_DOCKER_HOST: ${{ secrets.NCP_HOST }}
           NCP_DOCKER_PORT: ${{ secrets.NCP_DOCKER_PORT }}
@@ -64,5 +64,5 @@ jobs:
           echo -n "$CA_CERT" | base64 --decode > ca.pem
           echo -n "$CERT" | base64 --decode > cert.pem
           echo -n "$KEY" | base64 --decode > key.pem
-          docker -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify pull flab-hjw.kr.ncr.ntruss.com/test:1.6.4
+          docker -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify pull "${NCP_REG_ENDPOINT}/test:${RELEASE_VERSION}"
           docker-compose -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify -p test-blue -f docker-compose-blue.yml up -d
