@@ -7,7 +7,7 @@ BASE_DIR=$PWD
 CA_PATH="$BASE_DIR/ca.pem"
 CERT_PATH="$BASE_DIR/cert.pem"
 KEY_PATH="$BASE_DIR/key.pem"
-
+echo $RELEASE_VERSION
 EXIST_BLUE=$(docker-compose -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p $APP_NAME-blue -f docker-compose-blue.yml ps | grep Up)
 
 if [ -z "$EXIST_BLUE" ]; then
@@ -47,8 +47,8 @@ then
 fi
 done
 
-docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec -it proxy sh /scripts/switch-serve.sh $IDLE_PORT
-docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec -it proxy service nginx reload
+docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec proxy sh /scripts/switch-serve.sh $IDLE_PORT
+docker -H $NCP_HOST --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify exec proxy service nginx reload
 
 if [ -z "$EXIST_BLUE" ]; then
     docker-compose -H ${NCP_HOST} --tlscacert=$CA_PATH --tlscert=$CERT_PATH --tlskey=$KEY_PATH --tlsverify -p ${APP_NAME}-green -f docker-compose-green.yml down
