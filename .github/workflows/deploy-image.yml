@@ -62,4 +62,5 @@ jobs:
           echo -n "$CA_CERT" | base64 --decode > ca.pem
           echo -n "$CERT" | base64 --decode > cert.pem
           echo -n "$KEY" | base64 --decode > key.pem
-          sh deploy.sh
+          echo $NCP_DOCKER_HOST:$NCP_DOCKER_PORT
+          docker -H $NCP_DOCKER_HOST:$NCP_DOCKER_PORT --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem --tlsverify ps
